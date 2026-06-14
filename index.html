@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yggdrasil Creations | Portfolio</title>
+    <style>
+        :root {
+            --bg-deep: #0a0b0e;
+            --bg-surface: #12141c;
+            --bg-card: #1a1d28;
+            --accent: #00f2fe; /* Electric cyan */
+            --accent-glow: rgba(0, 242, 254, 0.2);
+            --text-primary: #ffffff;
+            --text-secondary: #94a3b8;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-deep);
+            color: var(--text-primary);
+            line-height: 1.6;
+            padding-bottom: 60px;
+        }
+
+        .container {
+            max-width: 1050px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* --- HEADER & NAV --- */
+        header {
+            padding: 30px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.6rem;
+            font-weight: 800;
+            letter-spacing: 2px;
+            color: var(--text-primary);
+            text-transform: uppercase;
+        }
+
+        .logo span {
+            color: var(--accent);
+            text-shadow: 0 0 10px var(--accent-glow);
+        }
+
+        /* --- ABOUT & SKILLS SECTION --- */
+        .profile-section {
+            padding: 60px 0;
+            background: linear-gradient(135deg, var(--bg-surface) 0%, var(--bg-deep) 100%);
+            border-radius: 12px;
+            margin: 40px 0;
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            padding: 40px;
+        }
+
+        .profile-section h1 {
+            font-size: 2.2rem;
+            margin-bottom: 15px;
+        }
+
+        .profile-section p {
+            color: var(--text-secondary);
+            max-width: 700px;
+            margin-bottom: 30px;
+            font-size: 1.1rem;
+        }
+
+        .skills-group {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .skill-tag {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 8px 18px;
+            border-radius: 30px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .skill-tag.engine {
+            border-color: var(--accent);
+            color: var(--accent);
+            background: rgba(0, 242, 254, 0.03);
+        }
+
+        .profile-section:hover .skill-tag.engine {
+            box-shadow: 0 0 12px var(--accent-glow);
+        }
+
+        /* --- GAMES GRID --- */
+        .section-title {
+            font-size: 1.8rem;
+            margin-bottom: 30px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-title::after {
+            content: '';
+            flex-grow: 1;
+            height: 1px;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .card {
+            background-color: var(--bg-surface);
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            cursor: pointer;
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), border-color 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card:hover {
+            transform: translateY(-6px);
+            border-color: var(--accent);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3), 0 0 15px rgba(0, 242, 254, 0.1);
+        }
+
+        .card-img-container {
+            position: relative;
+            padding-top: 56.25%; /* 16:9 ratio */
+            background: #1f2430;
+        }
+
+        .card-img-placeholder {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: var(--accent);
+            background: linear-gradient(45deg, #161923, #252a3a);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 1.1rem;
+        }
+
+        .card-body {
+            padding: 25px;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        .card-title {
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+        }
+
+        .card-text {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            margin-bottom: 20px;
+            flex-grow: 1;
+        }
+
+        .card-more {
+            color: var(--accent);
+            font-size: 0.9rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        /* --- INTERACTIVE MODAL PANEL --- */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(6, 7, 10, 0.85);
+            backdrop-filter: blur(8px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            padding: 20px;
+        }
+
+        .modal.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal-content {
+            background-color: var(--bg-surface);
+            max-width: 800px;
+            width: 100%;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            overflow: hidden;
+            position: relative;
+            transform: scale(0.95);
+            transition: transform 0.3s ease;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+
+        .modal.active .modal-content {
+            transform: scale(1);
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 2rem;
+            color: var(--text-secondary);
+            cursor: pointer;
+            z-index: 10;
+            transition: color 0.2s;
+        }
+
+        .close-btn:hover {
+            color: var(--text-primary);
+        }
+
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            background: #000;
+        }
+
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .modal-body {
+            padding: 35px;
+        }
+
+        .modal-title {
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+        }
+
+        .modal-desc {
+            color: var(--text-secondary);
+            margin-bottom: 30px;
+            font-size: 1.05rem;
+            line-height: 1.7;
+        }
+
+        .btn-play {
+            display: inline-block;
+            background-color: var(--accent);
+            color: var(--bg-deep);
+            padding: 14px 35px;
+            border-radius: 6px;
+            font-weight: 700;
+            text-decoration: none;
+            text-transform: uppercase;
+            font-size: 0.95rem;
+            letter-spacing: 0.5px;
+            box-shadow: 0 4px 14px var(--accent-glow);
+            transition: all 0.2s ease;
+        }
+
+        .btn-play:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 242, 254, 0.4);
+            filter: brightness(1.1);
+        }
+
+        /* --- ADS TEXT SYSTEM NAVIGATION --- */
+        .ads-footer-link {
+            display: inline-block;
+            margin-top: 60px;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        .ads-footer-link:hover { color: var(--accent); }
+
+        @media (max-width: 768px) {
+            .profile-section { padding: 25px; }
+            .modal-body { padding: 25px; }
+            .modal-title { font-size: 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAVBAR AREA -->
+    <header>
+        <div class="container nav-container">
+            <div class="logo">Yggdrasil <span>Creations</span></div>
+        </div>
+    </header>
+
+    <main class="container">
+        
+        <!-- BIOGRAPHY & TECH STACK PROFILER -->
+        <section class="profile-section">
+            <h1>Independent Game Studio</h1>
+            <p>We build immersive digital worlds with a specialized focus on robust core logic design, sleek visual frameworks, and engaging structural environments using the Unity Engine.</p>
+            
+            <div class="skills-group">
+                <div class="skill-tag engine">Unity Engine</div>
+                <div class="skill-tag">Game Development</div>
+                <div class="skill-tag">3D Designing</div>
+                <div class="skill-tag">Graphic Designer</div>
+            </div>
+        </section>
+
+        <!-- DYNAMIC GAMES REPOSITORY WRAPPER -->
+        <section>
+            <h2 class="section-title">Our Projects</h2>
+            <div class="grid" id="games-grid">
+                <!-- JavaScript automatically drops your game cards into this zone -->
+            </div>
+        </section>
+        
+        <a href="/app-ads.txt" class="ads-footer-link">Looking for developer configuration? View app-ads.txt</a>
+    </main>
+
+    <!-- INTERACTIVE DATA OVERLAY MODAL -->
+    <div class="modal" id="game-modal" onclick="closeGameModal()">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <span class="close-btn" onclick="closeGameModal()">&times;</span>
+            <div class="video-container">
+                <iframe id="modal-video" src="" allowfullscreen allow="autoplay; encrypted-media"></iframe>
+            </div>
+            <div class="modal-body">
+                <h3 class="modal-title" id="modal-title">Game Title</h3>
+                <p class="modal-desc" id="modal-desc">Detailed descriptions regarding development challenges and systems deployment will populate here dynamically.</p>
+                <a href="#" id="modal-link" target="_blank" class="btn-play">Get It On Google Play</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- DATA CONTROLLER LAYER -->
+    <script>
+        // ==========================================
+        // HOW TO ADD MORE GAMES IN THE FUTURE:
+        // Just copy an entire block from { to } below, 
+        // paste it right underneath, and update the text!
+        // ==========================================
+        const gamesDatabase = [
+            {
+                title: "VoidRunner Adventures",
+                tagline: "Survive the lonely void in this intense 32-bit pixel art runner.",
+                description: "Navigate a forgotten, dark sci-fi world filled with beautiful handcrafted assets and fluid gameplay. Built completely inside Unity using advanced procedural calculation grids, optimized specifically to run at crisp, solid frame rates on mobile devices.",
+                youtubeId: "dQw4w9WgXcQ", // Drop your YouTube Video ID string here
+                storeUrl: "https://play.google.com/store" // Paste your Google Play store asset link here
+            },
+            {
+                title: "Project Frontier (Concept)",
+                tagline: "Atmospheric sandbox testing matrix and lighting layout systems.",
+                description: "An internal prototype exploring advanced technical art pipelines, real-time lighting calculations, and optimization boundaries for low-overhead mobile game distribution profiles.",
+                youtubeId: "dQw4w9WgXcQ",
+                storeUrl: "#"
+            }
+        ];
+
+        // Renders all project cards instantly into the layout container
+        function initializePortfolio() {
+            const grid = document.getElementById('games-grid');
+            grid.innerHTML = ''; 
+
+            gamesDatabase.forEach((game, index) => {
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.setAttribute('onclick', `openGameModal(${index})`);
+                
+                card.innerHTML = `
+                    <div class="card-img-container">
+                        <div class="card-img-placeholder">${game.title}</div>
+                    </div>
+                    <div class="card-body">
+                        <h3 class="card-title">${game.title}</h3>
+                        <p class="card-text">${game.tagline}</p>
+                        <div class="card-more">Learn More & View Trailer ➔</div>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        // Handles opening the dynamic overlay modal view
+        function openGameModal(index) {
+            const game = gamesDatabase[index];
+            const modal = document.getElementById('game-modal');
+            
+            document.getElementById('modal-title').innerText = game.title;
+            document.getElementById('modal-desc').innerText = game.description;
+            document.getElementById('modal-link').href = game.storeUrl;
+            
+            // Updates iframe source layout to initiate secure player streaming configurations
+            document.getElementById('modal-video').src = `https://www.youtube.com/embed/${game.youtubeId}?autoplay=1`;
+            
+            modal.classList.add('active');
+        }
+
+        // Handles terminating the stream framework and resetting elements safely
+        function closeGameModal() {
+            const modal = document.getElementById('game-modal');
+            modal.classList.remove('active');
+            // Stops the video audio background processing instantly when modal clears out
+            document.getElementById('modal-video').src = '';
+        }
+
+        // Run instantiation protocol upon rendering complete
+        window.onload = initializePortfolio;
+    </script>
+</body>
+</html>
